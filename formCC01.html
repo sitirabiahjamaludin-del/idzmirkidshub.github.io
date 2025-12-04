@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Communication Work Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .cc01-form-wrapper {
+      font-family: "Poppins", Arial, sans-serif;
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      color: #002060;
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+
+    .cc01-form-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://picsum.photos/seed/communication/700/1000.jpg') center center / cover no-repeat;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cc01-form-wrapper > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cc01-form-wrapper h2 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .cc01-form-wrapper h3 {
+      color: #004aad;
+      border-bottom: 2px solid #ffcc00;
+      display: inline-block;
+      padding-bottom: 3px;
+      margin-top: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .cc01-section {
+      margin-top: 30px;
+    }
+
+    .cc01-form-wrapper label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .cc01-form-wrapper small {
+      display: block;
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .cc01-form-wrapper input,
+    .cc01-form-wrapper select,
+    .cc01-form-wrapper textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: "Poppins", Arial, sans-serif;
+      background-color: #ffffff;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .cc01-form-wrapper input:focus,
+    .cc01-form-wrapper select:focus,
+    .cc01-form-wrapper textarea:focus {
+      border-color: #004aad;
+      box-shadow: 0 0 0 2px rgba(0, 74, 173, 0.2);
+      outline: none;
+    }
+
+    .cc01-form-wrapper textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* Signature Pad Styles */
+    .signature-container {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .signature-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #004aad;
+    }
+
+    #signature-pad {
+      width: 100%;
+      height: 150px;
+      border: 2px dashed #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: crosshair;
+    }
+
+    #clearButton {
+      margin-top: 10px;
+      padding: 8px 20px;
+      background-color: #ef5350;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Poppins", Arial, sans-serif;
+      font-size: 0.85rem;
+      transition: 0.3s;
+    }
+
+    #clearButton:hover {
+      background-color: #c62828;
+    }
+
+    .cc01-btn {
+      display: block;
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Poppins", Arial, sans-serif;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .cc01-btn:hover {
+      background-color: #003080;
+    }
+
+    .cc01-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Required Field Indicator */
+    .required:after {
+      content: " *";
+      color: #e74c3c;
+    }
+
+    /* Error Message */
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #d4edda;
+      color: #155724;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    /* Form Progress Indicator */
+    .progress-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .progress-step:not(:last-child):after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background-color: #e0e0e0;
+      z-index: 1;
+    }
+
+    .progress-step.active:not(:last-child):after {
+      background-color: #004aad;
+    }
+
+    .progress-step .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #e0e0e0;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 5px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .progress-step.active .step-number {
+      background-color: #004aad;
+      color: white;
+    }
+
+    .progress-step.completed .step-number {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .progress-step .step-title {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .progress-step.active .step-title {
+      color: #004aad;
+      font-weight: 600;
+    }
+
+    /* Section visibility for form flow */
+    .section-content {
+      display: none;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    /* Navigation buttons */
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: "Poppins", Arial, sans-serif;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .nav-btn:hover {
+      background-color: #003080;
+    }
+
+    .nav-btn.secondary {
+      background-color: #ccc;
+      color: #666;
+    }
+
+    .nav-btn.secondary:hover {
+      background-color: #bbb;
+    }
+
+    @media (max-width: 600px) {
+      .cc01-form-wrapper {
+        padding: 20px;
+      }
+
+      .cc01-form-wrapper h2 {
+        font-size: 1.3rem;
+      }
+
+      .progress-step .step-title {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cc01-form-wrapper">
+  <h2>CUSTOMER COMMUNICATION WORK FORM</h2>
+
+  <!-- Signature Pad Library -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+  <!-- Progress Indicator -->
+  <div class="progress-indicator">
+    <div class="progress-step active" data-section="section-a">
+      <div class="step-number">1</div>
+      <div class="step-title">Client Info</div>
+    </div>
+    <div class="progress-step" data-section="section-b">
+      <div class="step-number">2</div>
+      <div class="step-title">Session Update</div>
+    </div>
+    <div class="progress-step" data-section="section-c">
+      <div class="step-number">3</div>
+      <div class="step-title">Feedback</div>
+    </div>
+    <div class="progress-step" data-section="section-d">
+      <div class="step-number">4</div>
+      <div class="step-title">Issue Log</div>
+    </div>
+    <div class="progress-step" data-section="section-e">
+      <div class="step-number">5</div>
+      <div class="step-title">Follow-up</div>
+    </div>
+    <div class="progress-step" data-section="section-f">
+      <div class="step-number">6</div>
+      <div class="step-title">Manager's Review</div>
+    </div>
+  </div>
+
+  <form id="formCC01">
+
+    <!-- SECTION A: BASIC CLIENT INFORMATION -->
+    <div class="section-content active" id="section-a">
+      <div class="cc01-section">
+        <h3>SECTION A: BASIC CLIENT INFORMATION</h3>
+
+        <label for="ReportCompletedby" class="required">Report Completed by</label>
+        <small>Name of staff</small>
+        <select id="ReportCompletedby" name="ReportCompletedby" required>
+          <option value="">-- Please choose --</option>
+          <option value="Nur Dalila binti Kamilan">Nur Dalila binti Kamilan</option>
+          <option value="Ricxstalonce Sating">Ricxstalonce Sating</option>
+          <option value="Shilla Nurayeisha binti Mohamad Khir">Shilla Nurayeisha binti Mohamad Khir</option>
+          <option value="Siti Nor Farahin binti Mohd Rashid">Siti Nor Farahin binti Mohd Rashid</option>
+          <option value="Siti Aqilah Sofia binti M.Tamizi">Siti Aqilah Sofia binti M.Tamizi</option>
+          <option value="Nur Fatilah binti Mohamad">Nur Fatilah binti Mohamad</option>
+          <option value="Siti Nur Afiqah binti Basiran">Siti Nur Afiqah binti Basiran</option>
+          <option value="Nurlizah binti Khazani">Nurlizah binti Khazani</option>
+          <option value="Yoganantini a/p Aiyaru">Yoganantini a/p Aiyaru</option>
+          <option value="Ainul Bahrain bin Azman">Ainul Bahrain bin Azman</option>
+          <option value="Noramanina binti Jamaludin">Noramanina binti Jamaludin</option>
+        </select>
+        <div class="error-message" id="ReportCompletedby-error">Please select a staff member</div>
+          
+        <label for="ParentGuardianFullName" class="required">Parent / Guardian Full Name</label>
+        <input type="text" id="ParentGuardianFullName" name="Parent/GuardianFullName" placeholder="Hamidah binti Hadi" required>
+        <div class="error-message" id="ParentGuardianFullName-error">Please enter parent/guardian full name</div>
+
+        <label for="ChildClientFullName" class="required">Child / Client Full Name</label>
+        <input type="text" id="ChildClientFullName" name="Child/ClientFullName" placeholder="Aish NurAini binti Akmal" required>
+        <div class="error-message" id="ChildClientFullName-error">Please enter child/client full name</div>
+
+        <label for="PhoneNumber" class="required">Customer Phone Number</label>
+        <input type="tel" id="PhoneNumber" name="PhoneNumber" placeholder="e.g. +60123456789" pattern="\+60[0-9]{8,11}" required>
+        <div class="error-message" id="PhoneNumber-error">Please enter a valid Malaysian phone number</div>
+
+        <label for="ServiceType" class="required">Service Type</label>
+        <select id="ServiceType" name="ServiceType" required>
+          <option value="">-- Please choose --</option>
+          <option value="Screening & Consultation">Screening & Consultation</option>
+          <option value="Assessment (New)">Assessment (New)</option>
+          <option value="Consultation Only (Old)">Consultation Only (Old)</option>
+          <option value="Therapy Class 1 Session">Therapy Class 1 Session</option>
+          <option value="Therapy Class 2 Session">Therapy Class 2 Session</option>
+          <option value="Therapy Class 3 Session">Therapy Class 3 Session</option>
+          <option value="Therapy Class 4 Session">Therapy Class 4 Session</option>
+          <option value="Therapy Class 8 Session">Therapy Class 8 Session</option>
+          <option value="Therapy Class 12 Session">Therapy Class 12 Session</option>
+          <option value="Education & Readiness School Program">Education & Readiness School Program</option>
+          <option value="Home Program">Home Program</option>
+          <option value="Parents Growth Circle">Parents Growth Circle</option>
+          <option value="Buy New T-shirt">Buy New T-shirt</option>
+        </select>
+        <div class="error-message" id="ServiceType-error">Please select a service type</div>
+
+        <label for="TherapistPIC" class="required">Therapist/PIC</label>
+        <small>Name of assigned therapist</small>
+        <select id="TherapistPIC" name="Therapist/PIC" required>
+          <option value="">-- Please choose --</option>
+          <option value="Nur Dalila binti Kamilan">Nur Dalila binti Kamilan</option>
+          <option value="Ricxstalonce Sating">Ricxstalonce Sating</option>
+          <option value="Shilla Nurayeisha binti Mohamad Khir">Shilla Nurayeisha binti Mohamad Khir</option>
+          <option value="Siti Nor Farahin binti Mohd Rashid">Siti Nor Farahin binti Mohd Rashid</option>
+          <option value="Siti Aqilah Sofia binti M.Tamizi">Siti Aqilah Sofia binti M.Tamizi</option>
+          <option value="Nur Fatilah binti Mohamad">Nur Fatilah binti Mohamad</option>
+          <option value="Siti Nur Afiqah binti Basiran">Siti Nur Afiqah binti Basiran</option>
+          <option value="Nurlizah binti Khazani">Nurlizah binti Khazani</option>
+          <option value="Yoganantini a/p Aiyaru">Yoganantini a/p Aiyaru</option>
+          <option value="Ainul Bahrain bin Azman">Ainul Bahrain bin Azman</option>
+          <option value="Noramanina binti Jamaludin">Noramanina binti Jamaludin</option>
+        </select>
+        <div class="error-message" id="TherapistPIC-error">Please select a therapist/PIC</div>
+
+        <label for="registrationDate" class="required">Registration Date</label>
+        <input type="date" id="registrationDate" name="registrationDate" required>
+        <div class="error-message" id="registrationDate-error">Please enter the registration date</div>
+
+        <label for="ClientStatus" class="required">Client Status</label>
+        <select id="ClientStatus" name="ClientStatus" required>
+          <option value="">-- Please choose --</option>
+          <option value="Active">Active</option>
+          <option value="On Break">On Break</option>
+          <option value="Discharged">Discharged</option>
+        </select>
+        <div class="error-message" id="ClientStatus-error">Please select client status</div>
+      </div>
+    </div>
+
+    <!-- SECTION B: SESSION / SERVICE UPDATE -->
+    <div class="section-content" id="section-b">
+      <div class="cc01-section">
+        <h3>SECTION B: SESSION / SERVICE UPDATE</h3>
+
+        <label for="DateofCommunication" class="required">Date of Communication</label>
+        <small>Date when the parent was conducted</small>
+        <input type="date" id="DateofCommunication" name="DateofCommunication" required>
+        <div class="error-message" id="DateofCommunication-error">Please enter the communication date</div>
+
+        <label for="TypeofContact" class="required">Type of Contact</label>
+        <select id="TypeofContact" name="TypeofContact" required>
+          <option value="">-- Please choose --</option>
+          <option value="Call">Call</option>
+          <option value="In-person">In-person</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Email">Email</option>
+        </select>
+        <div class="error-message" id="TypeofContact-error">Please select a contact type</div>
+
+        <label for="PurposeofCommunication" class="required">Purpose of Communication</label>
+        <small>Please select from any category description. Do not select category.</small>
+        <select id="PurposeofCommunication" name="PurposeofCommunication" required>
+          <option value="">-- Please choose --</option>
+          <option value="1. Session Management">1. Session Management</option>
+          <option value="Session Confirmation">Session Confirmation</option>
+          <option value="Session Reschedule / Cancellation">Session Reschedule / Cancellation</option>
+          <option value="Missed Session Follow-up">Missed Session Follow-up</option>
+          <option value="Session Reminder">Session Reminder</option>
+          <option value="2. Parent Feedback & Progress">2. Parent Feedback & Progress</option>
+          <option value="Session Feedback">Session Feedback</option>
+          <option value="Child Progress Inquiry">Child Progress Inquiry</option>
+          <option value="Parent Concern or Observation">Parent Concern or Observation</option>
+          <option value="Progress Report Discussion">Progress Report Discussion</option>
+          <option value="3. Billing & Payment">3. Billing & Payment</option>
+          <option value="Payment Reminder">Payment Reminder</option>
+          <option value="Receipt or Invoice Request">Receipt or Invoice Request</option>
+          <option value="Payment Discrepancy Clarification">Payment Discrepancy Clarification</option>
+          <option value="4. Complaint / Concern Resolution">4. Complaint / Concern Resolution</option>
+          <option value="Service Complaint">Service Complaint</option>
+          <option value="Facility Concern">Facility Concern</option>
+          <option value="Staff Behaviour Feedback">Staff Behaviour Feedback</option>
+          <option value="Unmet Expectation Follow-Up">Unmet Expectation Follow-Up</option>
+          <option value="5. Program & Package Communication">5. Program & Package Communication</option>
+          <option value="Program Renewal Inquiry">Program Renewal Inquiry</option>
+          <option value="Package Upgrade / Change Request">Package Upgrade / Change Request</option>
+          <option value="Promotion or Discount Inquiry">Promotion or Discount Inquiry</option>
+          <option value="New Service Information">New Service Information</option>
+          <option value="6. Consultation / Parent Meeting">6. Consultation / Parent Meeting</option>
+          <option value="Scheduling Parent Consultation">Scheduling Parent Consultation</option>
+          <option value="Discuss Child Development / Therapy Plan">Discuss Child Development / Therapy Plan</option>
+          <option value="Post-Assessment Discussion">Post-Assessment Discussion</option>
+          <option value="7. Special Requests">7. Special Requests</option>
+          <option value="Schedule Adjustment Request">Schedule Adjustment Request</option>
+          <option value="Child-Specific Note (Health / Behaviour)">Child-Specific Note (Health / Behaviour)</option>
+          <option value="Therapy Material Request">Therapy Material Request</option>
+          <option value="8. General Communication">8. General Communication</option>
+          <option value="Relationship Building / Check-In">Relationship Building / Check-In</option>
+          <option value="Appreciation / Thank You Message">Appreciation / Thank You Message</option>
+          <option value="Event or Campaign Announcement">Event or Campaign Announcement</option>
+          <option value="On leave">On leave</option>
+          <option value="Discharge">Discharge</option>
+          <option value="Time of Slip">Time of Slip</option>
+        </select>
+        <div class="error-message" id="PurposeofCommunication-error">Please select a purpose of communication</div>
+
+        <label for="CommunicationfromParent">Communication from Parent based on Purpose Above</label>
+        <small>Record parent's comment or concern</small>
+        <textarea id="CommunicationfromParent" name="CommunicationfromParentbasedonPurposeAbove" placeholder="Let me tell you about this..."></textarea>
+        
+        <label for="ActionTakenbyCustomerCare">Action Taken by Customer Care</label>
+        <small>Please write solution provided to the parents based on concern</small>
+        <textarea id="ActionTakenbyCustomerCare" name="ActionTakenbyCustomerCare" placeholder="Let me tell you about this..."></textarea>
+        
+        <label for="FollowupNeeded" class="required">Follow-up Needed</label>
+        <small>Please record this important message for next action</small>
+        <select id="FollowupNeeded" name="Follow-upNeeded" required>
+          <option value="">-- Please choose --</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error-message" id="FollowupNeeded-error">Please select if follow-up is needed</div>
+      </div>
+    </div>
+
+    <!-- SECTION C: SESSION / THERAPY FEEDBACK -->
+    <div class="section-content" id="section-c">
+      <div class="cc01-section">
+        <h3>SECTION C: SESSION / THERAPY FEEDBACK</h3>
+
+        <label for="AskParentPreviousSessionFeedback">Ask Parent Previous Session Feedback</label>
+        <small>Politely ask for feedback after greeting or confirming the purpose of the call.</small>
+        <select id="AskParentPreviousSessionFeedback" name="AskParentPreviousSessionFeedback">
+          <option value="">-- Please choose --</option>
+          <option value="Excellent (Cemerlang)">Excellent (Cemerlang)</option>
+          <option value="Good (Baik)">Good (Baik)</option>
+          <option value="Average (Sederhana)">Average (Sederhana)</option>
+          <option value="Concerned (Bimbang)">Concerned (Bimbang)</option>
+        </select>
+
+        <label for="ParentCommentSummary">Parent Comment Summary</label>
+        <small>Key summary of parent's observation or feedback</small>
+        <textarea id="ParentCommentSummary" name="ParentCommentSummary" placeholder="Let me tell you about this..."></textarea>
+
+        <label for="TherapistFeedback">Therapist Feedback (if applicable)</label>
+        <small>Short note from therapist if parent shared therapy-related issues</small>
+        <textarea id="TherapistFeedback" name="TherapistFeedback" placeholder="Let me tell you about this..."></textarea>
+
+        <label for="NextStepRecommendation">Next Step / Recommendation</label>
+        <small>This is where you turns parent feedback into real action.</small>
+        <select id="NextStepRecommendation" name="NextStep/Recommendation">
+          <option value="">-- Please choose --</option>
+          <option value="1. Service Continuation">1. Service Continuation</option>
+          <option value="Continue Current Plan">Continue Current Plan</option>
+          <option value="Maintain Frequency & Schedule">Maintain Frequency & Schedule</option>
+          <option value="Proceed to Next Session Cycle">Proceed to Next Session Cycle</option>
+          <option value="2. Therapy Adjustment">2. Therapy Adjustment</option>
+          <option value="Modify Current Goal">Modify Current Goal</option>
+          <option value="Adjust Therapy Intensity or Method">Adjust Therapy Intensity or Method</option>
+          <option value="Introduce New Activity / Focus Area">Introduce New Activity / Focus Area</option>
+          <option value="3. Consultation / Parent Review">3. Consultation / Parent Review</option>
+          <option value="Schedule Parent Consultation">Schedule Parent Consultation</option>
+          <option value="Arrange Case Discussion">Arrange Case Discussion</option>
+          <option value="Provide Therapist Feedback Summary">Provide Therapist Feedback Summary</option>
+          <option value="4. Escalation">4. Escalation</option>
+          <option value="Escalate to Therapist For Clarification">Escalate to Therapist For Clarification</option>
+          <option value="Escalate to Operation Manager for Action">Escalate to Operation Manager for Action</option>
+          <option value="Report Serious Concern to Director">Report Serious Concern to Director</option>
+          <option value="5. Assessment & Evaluation">5. Assessment & Evaluation</option>
+          <option value="Plan Reassessment / Progress Check">Plan Reassessment / Progress Check</option>
+          <option value="Evaluate Child Development Goals">Evaluate Child Development Goals</option>
+          <option value="Prepare Written Report">Prepare Written Report</option>
+          <option value="6. Parent Support">6. Parent Support</option>
+          <option value="Provide Resource Materials">Provide Resource Materials</option>
+          <option value="Send Educational Video / Link">Send Educational Video / Link</option>
+          <option value="7. Follow-Up & Monitoring">7. Follow-Up & Monitoring</option>
+          <option value="Follow-Up in 1 Week">Follow-Up in 1 Week</option>
+          <option value="Follow-Up After Next Session">Follow-Up After Next Session</option>
+          <option value="Track Parent Response">Track Parent Response</option>
+          <option value="8. Closure">8. Closure</option>
+          <option value="Issue Resolved">Issue Resolved</option>
+          <option value="Parent Confirmed Satisfaction">Parent Confirmed Satisfaction</option>
+          <option value="Close Case Officially">Close Case Officially</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION D: ISSUE LOG (IF ANY) -->
+    <div class="section-content" id="section-d">
+      <div class="cc01-section">
+        <h3>SECTION D: ISSUE LOG (IF ANY)</h3>
+
+        <label for="IssueType">Issue Type</label>
+        <select id="IssueType" name="IssueType">
+          <option value="">-- Please choose --</option>
+          <option value="Complaint">Complaint</option>
+          <option value="Inquiry">Inquiry</option>
+          <option value="Service Concern">Service Concern</option>
+          <option value="Suggestion">Suggestion</option>
+        </select>
+
+        <label for="DescriptionofIssue">Description of Issue</label>
+        <small>Write detailed note of what parent reported</small>
+        <textarea id="DescriptionofIssue" name="DescriptionofIssue" placeholder="Let me tell you about this..."></textarea>
+
+        <label for="ImmediateActionTaken">Immediate Action Taken</label>
+        <small>What CC did immediately</small>
+        <textarea id="ImmediateActionTaken" name="ImmediateActionTaken" placeholder="My answer is..."></textarea>
+
+        <label for="ReportedTo">Reported To</label>
+        <small>Who was informed</small>
+        <select id="ReportedTo" name="ReportedTo">
+          <option value="">-- Please choose --</option>
+          <option value="Manager">Manager</option>
+          <option value="Assistant Manager">Assistant Manager</option>
+          <option value="Manager Trainee">Manager Trainee</option>
+        </select>
+
+        <label for="ResolutionStatus">Resolution Status</label>
+        <select id="ResolutionStatus" name="ResolutionStatus">
+          <option value="">-- Please choose --</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Pending">Pending</option>
+          <option value="Escalated">Escalated</option>
+        </select>
+
+        <label for="DateClosed">Date Closed</label>
+        <small>When issue was fully settled</small>
+        <input type="date" id="DateClosed" name="DateClosed">
+      </div>
+    </div>
+
+    <!-- SECTION E: FOLLOW-UP RECORD -->
+    <div class="section-content" id="section-e">
+      <div class="cc01-section">
+        <h3>SECTION E: FOLLOW-UP RECORD</h3>
+
+        <label for="FollowupDate">Follow-up Date</label>
+        <small>Planned next contact date</small>
+        <input type="date" id="FollowupDate" name="Follow-upDate">
+
+        <label for="AssignedStaff">Assigned Staff</label>
+        <small>Name of Customer Care responsible</small>
+        <select id="AssignedStaff" name="AssignedStaff">
+          <option value="">-- Please choose --</option>
+          <option value="Nur Dalila (MANAGER)">Nur Dalila (MANAGER)</option>
+          <option value="Ricxstalonce Sating (MT)">Ricxstalonce Sating (MT)</option>
+          <option value="Shilla Nurayeisha (ASM)">Shilla Nurayeisha (ASM)</option>
+          <option value="Siti Nurafiqah (CC)">Siti Nurafiqah (CC)</option>
+          <option value="Nur Lizah (CA)">Nur Lizah (CA)</option>
+        </select>
+
+        <label for="MethodOfFollowup">Method of Follow-up</label>
+        <select id="MethodOfFollowup" name="MethodOfFollowup">
+          <option value="">-- Please choose --</option>
+          <option value="Call">Call</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Email">Email</option>
+        </select>
+
+        <label for="FollowupSummary">Follow-up Summary</label>
+        <small>Short update of what's next</small>
+        <textarea id="FollowupSummary" name="Follow-upSummary" placeholder="My answer is..."></textarea>
+
+        <label for="Status">Status</label>
+        <small>Status customer based on follow-up summary record</small>
+        <select id="Status" name="Status">
+          <option value="">-- Please choose --</option>
+          <option value="Ongoing">Ongoing</option>
+          <option value="Complete">Complete</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION F: MANAGER'S REVIEW -->
+    <div class="section-content" id="section-f">
+      <div class="cc01-section">
+        <h3>SECTION F: MANAGER'S REVIEW</h3>
+
+        <label for="Reviewby">Review by</label>
+        <small>Name of Manager or Quality Manager</small>
+        <select id="Reviewby" name="Reviewby">
+          <option value="">-- Please choose --</option>
+          <option value="Nur Dalila binti Kamilan">Nur Dalila binti Kamilan (MANAGER)</option>
+          <option value="Ricxstalonce Sating">Ricxstalonce Sating (MT)</option>
+          <option value="Shilla Nurayeisha binti Mohamad Khir">Shilla Nurayeisha binti Mohamad Khir (ASM)</option>
+        </select>
+
+        <label for="DateReviewed">Date Reviewed</label>
+        <input type="date" id="DateReviewed" name="DateReviewed">
+
+        <label for="FeedbackInstruction">Feedback / Instruction</label>
+        <small>Manager's notes for CC or therapist</small>
+        <textarea id="FeedbackInstruction" name="FeedbackInstruction" placeholder="My answer is..."></textarea>
+
+        <label for="CategoryType">Category Type</label>
+        <select id="CategoryType" name="CategoryType">
+          <option value="">-- Please choose --</option>
+          <option value="Service">Service</option>
+          <option value="Report">Report</option>
+          <option value="Billing">Billing</option>
+          <option value="Complaint">Complaint</option>
+          <option value="Others">Others</option>
+        </select>
+
+        <label for="SeverityLevel">Severity Level</label>
+        <select id="SeverityLevel" name="SeverityLevel">
+          <option value="">-- Please choose --</option>
+          <option value="Low (3 days)">Low (3 days)</option>
+          <option value="Medium (between 24-48 hours)">Medium (between 24-48 hours)</option>
+          <option value="High (critical, fast action)">High (critical, fast action)</option>
+        </select>
+
+        <!-- Signature -->
+        <input type="hidden" name="signatureData" id="signatureData">
+        <div class="signature-container">
+          <label for="signature-pad" class="required">Your Signature</label>
+          <small>Add a digital signature using your mouse, stylus, or finger.</small>
+          <canvas id="signature-pad"></canvas>
+          <button type="button" id="clearButton">Clear</button>
+          <div id="signatureError" class="error-message">Please provide your signature before submitting.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="form-navigation">
+      <button type="button" class="nav-btn secondary" id="prevBtn" style="display: none;">Previous</button>
+      <button type="button" class="nav-btn" id="nextBtn">Next</button>
+      <button type="submit" class="cc01-btn" id="submitBtn" style="display: none;">Submit</button>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="success-message">
+      Thank you! Your communication work form has been submitted successfully.
+    </div>
+  </form>
+</div>
+
+<script>
+  // Initialize Signature Pad
+  const canvas = document.getElementById('signature-pad');
+  const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgb(255, 255, 255)'
+  });
+
+  // Set today's date as default for date fields
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('registrationDate').value = today;
+  document.getElementById('DateofCommunication').value = today;
+  document.getElementById('DateReviewed').value = today;
+
+  // Resize canvas
+  function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+    signaturePad.clear();
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  // Clear button
+  document.getElementById('clearButton').addEventListener('click', function() {
+    signaturePad.clear();
+  });
+
+  // Form Navigation
+  const sections = ['section-a', 'section-b', 'section-c', 'section-d', 'section-e', 'section-f'];
+  const progressSteps = document.querySelectorAll('.progress-step');
+  const sectionContents = document.querySelectorAll('.section-content');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  let currentSection = 0;
+
+  // Function to show a specific section
+  function showSection(sectionIndex) {
+    // Hide all sections
+    sectionContents.forEach(section => {
+      section.classList.remove('active');
+    });
+    
+    // Show the current section
+    sectionContents[sectionIndex].classList.add('active');
+    
+    // Update progress steps
+    progressSteps.forEach((step, index) => {
+      if (index < sectionIndex) {
+        step.classList.add('completed');
+        step.classList.remove('active');
+      } else if (index === sectionIndex) {
+        step.classList.add('active');
+        step.classList.remove('completed');
+      } else {
+        step.classList.remove('active', 'completed');
+      }
+    });
+    
+    // Update navigation buttons
+    prevBtn.style.display = sectionIndex === 0 ? 'none' : 'block';
+    nextBtn.style.display = sectionIndex === sections.length - 1 ? 'none' : 'block';
+    submitBtn.style.display = sectionIndex === sections.length - 1 ? 'block' : 'none';
+    
+    // Scroll to top of form
+    window.scrollTo(0, 0);
+  }
+
+  // Initialize the form
+  showSection(0);
+
+  // Previous button click event
+  prevBtn.addEventListener('click', function() {
+    if (currentSection > 0) {
+      currentSection--;
+      showSection(currentSection);
+    }
+  });
+
+  // Next button click event
+  nextBtn.addEventListener('click', function() {
+    // Validate current section before moving to next
+    if (validateSection(currentSection)) {
+      if (currentSection < sections.length - 1) {
+        currentSection++;
+        showSection(currentSection);
+      }
+    }
+  });
+
+  // Progress step click event
+  progressSteps.forEach((step, index) => {
+    step.addEventListener('click', function() {
+      // Only allow jumping to completed sections or the next section
+      if (index <= currentSection + 1) {
+        // Validate all sections up to the target
+        let canNavigate = true;
+        for (let i = 0; i < index; i++) {
+          if (!validateSection(i)) {
+            canNavigate = false;
+            break;
+          }
+        }
+        
+        if (canNavigate) {
+          currentSection = index;
+          showSection(currentSection);
+        }
+      }
+    });
+  });
+
+  // Function to validate a specific section
+  function validateSection(sectionIndex) {
+    let isValid = true;
+    const sectionId = sections[sectionIndex];
+    const section = document.getElementById(sectionId);
+    
+    // Reset error messages
+    const errorMessages = section.querySelectorAll('.error-message');
+    errorMessages.forEach(error => {
+      error.style.display = 'none';
+    });
+    
+    // Validate required fields in the current section
+    const requiredFields = section.querySelectorAll('[required]');
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        const errorElement = document.getElementById(`${field.id}-error`);
+        if (errorElement) {
+          errorElement.style.display = 'block';
+        }
+        field.style.borderColor = '#e74c3c';
+        isValid = false;
+      } else {
+        field.style.borderColor = '';
+      }
+    });
+    
+    // Special validation for phone number
+    if (sectionIndex === 0) {
+      const phoneField = document.getElementById('PhoneNumber');
+      const phoneRegex = /^\+60[0-9]{8,11}$/;
+      if (phoneField.value && !phoneRegex.test(phoneField.value)) {
+        document.getElementById('PhoneNumber-error').textContent = 'Please enter a valid Malaysian phone number (+60xxxxxxxxx)';
+        document.getElementById('PhoneNumber-error').style.display = 'block';
+        phoneField.style.borderColor = '#e74c3c';
+        isValid = false;
+      }
+    }
+    
+    // Special validation for signature in the last section
+    if (sectionIndex === sections.length - 1) {
+      if (signaturePad.isEmpty()) {
+        document.getElementById('signatureError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('signatureError').style.display = 'none';
+      }
+    }
+    
+    return isValid;
+  }
+
+  // Form submission
+  const form = document.getElementById('formCC01');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate the last section
+    if (!validateSection(sections.length - 1)) {
+      return;
+    }
+    
+    // Save signature data
+    if (!signaturePad.isEmpty()) {
+      document.getElementById('signatureData').value = signaturePad.toDataURL();
+    }
+    
+    // Show success message
+    document.getElementById('success-message').style.display = 'block';
+    
+    // Scroll to success message
+    document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+    
+    // In a real application, you would submit the form data to a server here
+    console.log('Form submitted successfully');
+    
+    // Reset form after 5 seconds
+    setTimeout(() => {
+      form.reset();
+      signaturePad.clear();
+      document.getElementById('success-message').style.display = 'none';
+      
+      // Reset to first section
+      currentSection = 0;
+      showSection(0);
+      
+      // Set today's date again
+      document.getElementById('registrationDate').value = today;
+      document.getElementById('DateofCommunication').value = today;
+      document.getElementById('DateReviewed').value = today;
+    }, 5000);
+  });
+</script>
+
+</body>
+</html>

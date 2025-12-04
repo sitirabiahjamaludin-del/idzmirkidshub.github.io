@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Booking & Payment Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .cc02-form-wrapper {
+            font-family: "Poppins", Arial, sans-serif;
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #002060;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .cc02-form-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://picsum.photos/seed/therapycenter/700/1000.jpg') center center / cover no-repeat;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cc02-form-wrapper > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cc02-form-wrapper h2 {
+            text-align: center;
+            color: #004aad;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .cc02-form-wrapper h3 {
+            color: #004aad;
+            border-bottom: 2px solid #ffcc00;
+            display: inline-block;
+            padding-bottom: 3px;
+            margin-top: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .cc02-section {
+            margin-top: 30px;
+        }
+
+        .cc02-form-wrapper label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .cc02-form-wrapper small {
+            display: block;
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .cc02-form-wrapper input,
+        .cc02-form-wrapper select,
+        .cc02-form-wrapper textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: "Poppins", Arial, sans-serif;
+            background-color: #ffffff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .cc02-form-wrapper input:focus,
+        .cc02-form-wrapper select:focus,
+        .cc02-form-wrapper textarea:focus {
+            border-color: #004aad;
+            box-shadow: 0 0 0 2px rgba(0, 74, 173, 0.2);
+            outline: none;
+        }
+
+        /* Session List */
+        .session-list {
+            margin: 15px 0;
+        }
+
+        .booking-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 12px;
+            background-color: rgba(249, 249, 249, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: background-color 0.2s;
+        }
+
+        .booking-row:hover {
+            background-color: rgba(240, 244, 248, 0.9);
+        }
+
+        .booking-row label {
+            margin: 0;
+            font-weight: 500;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .booking-row .price {
+            margin-right: 15px;
+            font-weight: 600;
+            color: #004aad;
+        }
+
+        .qty-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .qty-box button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background-color: #004aad;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-box button:hover {
+            background-color: #003080;
+        }
+
+        .qty-box button:active {
+            transform: scale(0.95);
+        }
+
+        .qty-box .num {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #004aad;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .cc02-btn {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            background-color: #004aad;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: "Poppins", Arial, sans-serif;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .cc02-btn:hover {
+            background-color: #003080;
+        }
+
+        .cc02-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Total Cost Display */
+        .total-cost {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(0, 74, 173, 0.1);
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .total-cost .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .total-cost .amount {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #004aad;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* File Upload Styling */
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload label {
+            display: block;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-upload label:hover {
+            background-color: #f0f0f0;
+        }
+
+        .file-name {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Required Field Indicator */
+        .required:after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .cc02-form-wrapper {
+                padding: 20px;
+            }
+            .cc02-form-wrapper h2 {
+                font-size: 1.3rem;
+            }
+            .booking-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .booking-row .price {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cc02-form-wrapper">
+        <h2>SESSION BOOKING & PAYMENT FORM</h2>
+
+        <form id="formCC02">
+            <label for="Preparedby">Prepared by (Staff)</label>
+            <select id="Preparedby" name="Preparedby" required>
+                <option value="">-- Please choose --</option>
+                <option value="Nur Dalila binti Kamilan">Nur Dalila binti Kamilan</option>
+                <option value="Ricxstalonce Sating">Ricxstalonce Sating</option>
+                <option value="Shilla Nurayeisha binti Mohamad Khir">Shilla Nurayeisha binti Mohamad Khir</option>
+                <option value="Siti Nor Farahin binti Mohd Rashid">Siti Nor Farahin binti Mohd Rashid</option>
+                <option value="Siti Aqilah Sofia binti M.Tamizi">Siti Aqilah Sofia binti M.Tamizi</option>
+                <option value="Nur Fatilah binti Mohamad">Nur Fatilah binti Mohamad</option>
+                <option value="Siti Nur Afiqah binti Basiran">Siti Nur Afiqah binti Basiran</option>
+                <option value="Nurlizah binti Khazani">Nurlizah binti Khazani</option>
+                <option value="Yoganantini a/p Aiyaru">Yoganantini a/p Aiyaru</option>
+                <option value="Ainul Bahrain bin Azman">Ainul Bahrain bin Azman</option>
+                <option value="Noramanina binti Jamaludin">Noramanina binti Jamaludin</option>
+            </select>
+            <div class="error-message" id="Preparedby-error">Please select a staff member</div>
+
+            <label for="DateofReport" class="required">Date of Report</label>
+            <input type="date" id="DateofReport" name="DateofReport" required>
+            <div class="error-message" id="DateofReport-error">Please enter the report date</div>
+
+            <!-- SECTION 1 -->
+            <div class="cc02-section">
+                <h3>SECTION 1: Parent / Guardian Details</h3>
+
+                <label for="ParentGuardianFullName" class="required">Full Name</label>
+                <input type="text" id="ParentGuardianFullName" name="ParentGuardianFullName" placeholder="Hamidah binti Hadi" required>
+                <div class="error-message" id="ParentGuardianFullName-error">Please enter parent/guardian full name</div>
+
+                <label for="PhoneNumber" class="required">Phone Number (Validated as +60)</label>
+                <input type="tel" id="PhoneNumber" name="PhoneNumber" placeholder="e.g. +60123456789" pattern="\+60[0-9]{8,11}" required>
+                <div class="error-message" id="PhoneNumber-error">Please enter a valid Malaysian phone number</div>
+
+                <label for="Email" class="required">Email</label>
+                <input type="email" id="Email" name="Email" placeholder="hamidahhadi@gmail.com" required>
+                <div class="error-message" id="Email-error">Please enter a valid email address</div>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div class="cc02-section">
+                <h3>SECTION 2: Child / Client Details</h3>
+
+                <label for="ChildFullName" class="required">Child Full Name</label>
+                <input type="text" id="ChildFullName" name="ChildFullName" placeholder="Aish NurAini binti Akmal" required>
+                <div class="error-message" id="ChildFullName-error">Please enter child's full name</div>
+
+                <label for="DateofBirth" class="required">Date of Birth</label>
+                <input type="date" id="DateofBirth" name="DateofBirth" required>
+                <div class="error-message" id="DateofBirth-error">Please enter child's date of birth</div>
+
+                <label for="ClientStatus" class="required">Diagnosis / Concern</label>
+                <select id="ClientStatus" name="ClientStatus" required>
+                    <option value="">-- Please choose --</option>
+                    <option value="Active">Active</option>
+                    <option value="On Break">On Break</option>
+                    <option value="Discharged">Discharged</option>
+                </select>
+                <div class="error-message" id="ClientStatus-error">Please select client status</div>
+
+                <label for="CurrentSchoolCentre">Current School / Centre</label>
+                <input type="text" id="CurrentSchoolCentre" name="CurrentSchoolCentre" placeholder="My Answer is...">
+            </div>
+
+            <!-- SECTION 3 -->
+            <div class="cc02-section">
+                <h3>SECTION 3: Booking Details</h3>
+
+                <label>Choose Session Package:</label>
+                <small>Optional - Use +/- buttons to select quantity</small>
+                <div class="session-list">
+                    <div class="booking-row">
+                        <label>Screening & Consultation</label>
+                        <span class="price">RM 150</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="screening" data-price="150">−</button>
+                            <span class="num" id="screening-qty">0</span>
+                            <button type="button" class="plus" data-session="screening" data-price="150">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Assessment</label>
+                        <span class="price">RM 350</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="assessment" data-price="350">−</button>
+                            <span class="num" id="assessment-qty">0</span>
+                            <button type="button" class="plus" data-session="assessment" data-price="350">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Intervention</label>
+                        <span class="price">RM 120</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="intervention" data-price="120">−</button>
+                            <span class="num" id="intervention-qty">0</span>
+                            <button type="button" class="plus" data-session="intervention" data-price="120">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Ready to School Program</label>
+                        <span class="price">RM 200</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="school" data-price="200">−</button>
+                            <span class="num" id="school-qty">0</span>
+                            <button type="button" class="plus" data-session="school" data-price="200">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Register Parents Growth Circle</label>
+                        <span class="price">RM 80</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="growth" data-price="80">−</button>
+                            <span class="num" id="growth-qty">0</span>
+                            <button type="button" class="plus" data-session="growth" data-price="80">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Register Bengkel Komunikasi Ibubapa</label>
+                        <span class="price">RM 100</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="bengkel" data-price="100">−</button>
+                            <span class="num" id="bengkel-qty">0</span>
+                            <button type="button" class="plus" data-session="bengkel" data-price="100">+</button>
+                        </div>
+                    </div>
+                    <div class="booking-row">
+                        <label>Consultation / Therapist Meeting</label>
+                        <span class="price">RM 120</span>
+                        <div class="qty-box">
+                            <button type="button" class="minus" data-session="consultation" data-price="120">−</button>
+                            <span class="num" id="consultation-qty">0</span>
+                            <button type="button" class="plus" data-session="consultation" data-price="120">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="total-cost">
+                    <div class="label">Total Cost:</div>
+                    <div class="amount" id="total-cost">RM 0.00</div>
+                </div>
+
+                <!-- Appointments -->
+                <div class="form-group">
+                    <label for="PurposeAppointment1">Purpose Appointment 1</label>
+                    <select id="PurposeAppointment1" name="PurposeAppointment1">
+                        <option value="">-- Please choose --</option>
+                        <optgroup label="A. Intake & Assessment">
+                            <option value="Initial Assessment">Initial Assessment</option>
+                            <option value="Developmental Screening">Developmental Screening</option>
+                            <option value="Speech & Language Assessment">Speech & Language Assessment</option>
+                            <option value="Occupational Therapy Assessment">Occupational Therapy Assessment</option>
+                            <option value="Physiotherapy Assessment">Physiotherapy Assessment</option>
+                        </optgroup>
+                        <optgroup label="B. Therapy Session">
+                            <option value="Occupational Therapy Session">Occupational Therapy Session</option>
+                            <option value="Speech Therapy Session">Speech Therapy Session</option>
+                            <option value="Physiotherapy Session">Physiotherapy Session</option>
+                        </optgroup>
+                        <optgroup label="C. Parent & Customer Care">
+                            <option value="Parent Consultation">Parent Consultation</option>
+                            <option value="Progress Discussion">Progress Discussion</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateAppointment1">Date Appointment 1</label>
+                    <small>Confirm the appointment date and time directly with the parent or guardian.</small>
+                    <input type="date" id="dateAppointment1" name="dateAppointment1">
+                </div>
+
+                <div class="form-group">
+                    <label for="PurposeAppointment2">Purpose Appointment 2</label>
+                    <select id="PurposeAppointment2" name="PurposeAppointment2">
+                        <option value="">-- Please choose --</option>
+                        <optgroup label="A. Intake & Assessment">
+                            <option value="Initial Assessment">Initial Assessment</option>
+                            <option value="Developmental Screening">Developmental Screening</option>
+                        </optgroup>
+                        <optgroup label="B. Therapy Session">
+                            <option value="Occupational Therapy Session">Occupational Therapy Session</option>
+                            <option value="Speech Therapy Session">Speech Therapy Session</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateAppointment2">Date Appointment 2</label>
+                    <small>Confirm the appointment date and time directly with the parent or guardian.</small>
+                    <input type="date" id="dateAppointment2" name="dateAppointment2">
+                </div>
+
+                <div class="form-group">
+                    <label for="PurposeAppointment3">Purpose Appointment 3</label>
+                    <select id="PurposeAppointment3" name="PurposeAppointment3">
+                        <option value="">-- Please choose --</option>
+                        <optgroup label="A. Intake & Assessment">
+                            <option value="Initial Assessment">Initial Assessment</option>
+                        </optgroup>
+                        <optgroup label="B. Therapy Session">
+                            <option value="Occupational Therapy Session">Occupational Therapy Session</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateAppointment3">Date Appointment 3</label>
+                    <small>Confirm the appointment date and time directly with the parent or guardian.</small>
+                    <input type="date" id="dateAppointment3" name="dateAppointment3">
+                </div>
+            </div>
+
+            <!-- SECTION 4 -->
+            <div class="cc02-section">
+                <h3>SECTION 4: Payment Detail & Booking Confirmation</h3>
+
+                <label for="PaymentDate" class="required">Payment Date</label>
+                <small>Record the exact date payment was made.</small>
+                <input type="date" id="PaymentDate" name="PaymentDate" required>
+                <div class="error-message" id="PaymentDate-error">Please enter the payment date</div>
+
+                <label for="PaymentMethod" class="required">Payment Method</label>
+                <small>Select the correct payment method used by the customer.</small>
+                <select id="PaymentMethod" name="PaymentMethod" required>
+                    <option value="">-- Please choose --</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Online transfer">Online transfer</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="QR Pay">QR Pay</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div class="error-message" id="PaymentMethod-error">Please select a payment method</div>
+
+                <label for="ProofOfPayment">Upload Proof of Payment</label>
+                <small>Accepted formats: JPG, JPEG, PNG, PDF</small>
+                <div class="file-upload">
+                    <input type="file" id="ProofOfPayment" name="ProofOfPayment" accept="image/*,.pdf">
+                    <label for="ProofOfPayment">Click to upload file</label>
+                    <div class="file-name" id="file-name">No file selected</div>
+                </div>
+
+                <label for="AmountPaid" class="required">Amount Paid (RM)</label>
+                <small>Record the exact payment amount in Malaysia Ringgit (RM).</small>
+                <input type="number" id="AmountPaid" name="AmountPaid" placeholder="e.g. 250.00" step="0.01" min="0" required>
+                <div class="error-message" id="AmountPaid-error">Please enter the payment amount</div>
+
+                <label for="ReceiptNumber">Receipt / Reference Number</label>
+                <small>Record the official receipt or transaction reference number.</small>
+                <input type="text" id="ReceiptNumber" name="ReceiptNumber" placeholder="e.g. RCP-2024-001">
+
+                <label for="SalesInvoiceNo">Sales Invoice No.</label>
+                <small>Record the official invoice number generated for this payment.</small>
+                <input type="text" id="SalesInvoiceNo" name="SalesInvoiceNo" placeholder="e.g. INV-2024-001">
+            </div>
+
+            <button type="submit" class="cc02-btn">Submit Booking & Payment</button>
+            
+            <div class="success-message" id="success-message">
+                Thank you! Your booking and payment information has been submitted successfully.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date as default for date fields
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('DateofReport').value = today;
+            document.getElementById('PaymentDate').value = today;
+
+            // Session quantity management
+            const sessionQuantities = {
+                screening: 0,
+                assessment: 0,
+                intervention: 0,
+                school: 0,
+                growth: 0,
+                bengkel: 0,
+                consultation: 0
+            };
+
+            const sessionPrices = {
+                screening: 150,
+                assessment: 350,
+                intervention: 120,
+                school: 200,
+                growth: 80,
+                bengkel: 100,
+                consultation: 120
+            };
+
+            // Update total cost
+            function updateTotalCost() {
+                let total = 0;
+                for (const session in sessionQuantities) {
+                    total += sessionQuantities[session] * sessionPrices[session];
+                }
+                document.getElementById('total-cost').textContent = `RM ${total.toFixed(2)}`;
+                document.getElementById('AmountPaid').value = total.toFixed(2);
+            }
+
+            // Add event listeners to plus buttons
+            document.querySelectorAll('.plus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const session = this.getAttribute('data-session');
+                    sessionQuantities[session]++;
+                    document.getElementById(`${session}-qty`).textContent = sessionQuantities[session];
+                    updateTotalCost();
+                });
+            });
+
+            // Add event listeners to minus buttons
+            document.querySelectorAll('.minus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const session = this.getAttribute('data-session');
+                    if (sessionQuantities[session] > 0) {
+                        sessionQuantities[session]--;
+                        document.getElementById(`${session}-qty`).textContent = sessionQuantities[session];
+                        updateTotalCost();
+                    }
+                });
+            });
+
+            // File upload handling
+            document.getElementById('ProofOfPayment').addEventListener('change', function() {
+                const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+                document.getElementById('file-name').textContent = fileName;
+            });
+
+            // Form validation and submission
+            const form = document.getElementById('formCC02');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(error => {
+                    error.style.display = 'none';
+                });
+                
+                let isValid = true;
+                
+                // Validate required fields
+                const requiredFields = [
+                    'Preparedby', 'DateofReport', 'ParentGuardianFullName', 
+                    'PhoneNumber', 'Email', 'ChildFullName', 'DateofBirth', 
+                    'ClientStatus', 'PaymentDate', 'PaymentMethod', 'AmountPaid'
+                ];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    const errorElement = document.getElementById(`${fieldId}-error`);
+                    
+                    if (!field.value.trim()) {
+                        errorElement.style.display = 'block';
+                        field.style.borderColor = '#e74c3c';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '';
+                    }
+                });
+                
+                // Validate email format
+                const emailField = document.getElementById('Email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailField.value && !emailRegex.test(emailField.value)) {
+                    document.getElementById('Email-error').textContent = 'Please enter a valid email address';
+                    document.getElementById('Email-error').style.display = 'block';
+                    emailField.style.borderColor = '#e74c3c';
+                    isValid = false;
+                }
+                
+                // Validate phone number format
+                const phoneField = document.getElementById('PhoneNumber');
+                const phoneRegex = /^\+60[0-9]{8,11}$/;
+                if (phoneField.value && !phoneRegex.test(phoneField.value)) {
+                    document.getElementById('PhoneNumber-error').textContent = 'Please enter a valid Malaysian phone number (+60xxxxxxxxx)';
+                    document.getElementById('PhoneNumber-error').style.display = 'block';
+                    phoneField.style.borderColor = '#e74c3c';
+                    isValid = false;
+                }
+                
+                // Validate at least one session is selected
+                let hasSession = false;
+                for (const session in sessionQuantities) {
+                    if (sessionQuantities[session] > 0) {
+                        hasSession = true;
+                        break;
+                    }
+                }
+                
+                if (!hasSession) {
+                    alert('Please select at least one session');
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Show success message
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // Scroll to success message
+                    document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // In a real application, you would submit the form data to a server here
+                    console.log('Form submitted successfully');
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        form.reset();
+                        document.getElementById('success-message').style.display = 'none';
+                        
+                        // Reset session quantities
+                        for (const session in sessionQuantities) {
+                            sessionQuantities[session] = 0;
+                            document.getElementById(`${session}-qty`).textContent = '0';
+                        }
+                        updateTotalCost();
+                        
+                        // Reset file name display
+                        document.getElementById('file-name').textContent = 'No file selected';
+                        
+                        // Set today's date again
+                        document.getElementById('DateofReport').value = today;
+                        document.getElementById('PaymentDate').value = today;
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

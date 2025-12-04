@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Prospect Inquiry Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .ca01-form-wrapper {
+      font-family: "Poppins", Arial, sans-serif;
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      color: #002060;
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+
+    .ca01-form-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://picsum.photos/seed/prospect/700/1000.jpg') center center / cover no-repeat;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ca01-form-wrapper > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ca01-form-wrapper h2 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .ca01-form-wrapper h3 {
+      color: #004aad;
+      border-bottom: 2px solid #ffcc00;
+      display: inline-block;
+      padding-bottom: 3px;
+      margin-top: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .ca01-section { margin-top: 30px; }
+
+    .ca01-form-wrapper label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .ca01-form-wrapper small {
+      display: block;
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .ca01-form-wrapper input,
+    .ca01-form-wrapper select,
+    .ca01-form-wrapper textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: "Poppins", Arial, sans-serif;
+    }
+
+    .ca01-gender-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      justify-content: flex-start;
+    }
+
+    .ca01-gender-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 90px;
+      height: 110px;
+      opacity: 0.8;
+    }
+
+    .ca01-gender-option:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .ca01-gender-option input { display: none; }
+
+    .ca01-gender-img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .ca01-gender-option input:checked + .ca01-gender-img {
+      border: 3px solid #004aad;
+      transform: scale(1.05);
+    }
+
+    .required:after {
+      content: " *";
+      color: #e74c3c;
+    }
+
+    .name-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .consent { margin-top: 15px; margin-bottom: 8px; }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .ca01-btn {
+      display: block;
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .name-columns { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ca01-form-wrapper">
+
+  <h2>NEW PROSPECT INQUIRY FORM</h2>
+
+  <form id="formCA01">
+
+    <!-- SECTION A -->
+    <div class="ca01-section">
+      <h3>SECTION A: PARENT / GUARDIAN DETAILS</h3>
+
+      <div class="name-columns">
+        <div>
+          <label class="required">Parent's First Name</label>
+          <input type="text" required>
+        </div>
+        <div>
+          <label class="required">Parent's Last Name</label>
+          <input type="text" required>
+        </div>
+      </div>
+
+      <label class="required">Phone Number</label>
+      <input type="tel" required>
+
+      <label class="required">Email</label>
+      <input type="email" required>
+    </div>
+
+    <!-- SECTION B -->
+    <div class="ca01-section">
+      <h3>SECTION B: CHILD / CLIENT DETAILS</h3>
+
+      <div class="name-columns">
+        <div>
+          <label class="required">Child's First Name</label>
+          <input type="text" required>
+        </div>
+        <div>
+          <label class="required">Child's Last Name</label>
+          <input type="text" required>
+        </div>
+      </div>
+
+      <label class="required">Date of Birth</label>
+      <input type="date" required>
+
+      <label class="required">Gender</label>
+      <div class="ca01-gender-container">
+        <label class="ca01-gender-option">
+          <input type="radio" name="gender" value="male">
+          <img class="ca01-gender-img" src="https://picsum.photos/seed/boy/70/70.jpg">
+          <span>Male</span>
+        </label>
+
+        <label class="ca01-gender-option">
+          <input type="radio" name="gender" value="female">
+          <img class="ca01-gender-img" src="https://picsum.photos/seed/girl/70/70.jpg">
+          <span>Female</span>
+        </label>
+      </div>
+
+      <label class="required">Diagnosis</label>
+      <select required>
+        <option value="">-- Please choose --</option>
+        <option>Speech Delay</option>
+        <option>ASD</option>
+        <option>Developmental Delay</option>
+        <option>Not Diagnosed Yet</option>
+      </select>
+    </div>
+
+    <!-- SECTION C -->
+    <div class="ca01-section">
+      <h3>SECTION C: INQUIRY DETAILS</h3>
+
+      <label class="required">Service Interested In</label>
+      <select required>
+        <option value="">-- Please choose --</option>
+        <option>Screening and Consultation</option>
+        <option>Consultation</option>
+        <option>Assessment</option>
+        <option>Therapy Class</option>
+      </select>
+
+      <label class="required">Preferred Day</label>
+      <select required>
+        <option value="">-- Please choose --</option>
+        <option>Weekday</option>
+        <option>Saturday</option>
+        <option>Flexible</option>
+      </select>
+
+      <label class="required">Preferred Time</label>
+      <select required>
+        <option value="">-- Please choose --</option>
+        <option>Morning</option>
+        <option>Afternoon</option>
+        <option>Evening</option>
+      </select>
+    </div>
+
+    <!-- SECTION D -->
+    <div class="ca01-section">
+      <h3>SECTION D: HOW DID YOU HEAR ABOUT US?</h3>
+
+      <label class="required">Source of Information</label>
+      <select required>
+        <option value="">-- Please choose --</option>
+        <option>Google</option>
+        <option>Facebook</option>
+        <option>Instagram</option>
+        <option>Referral</option>
+      </select>
+
+      <label>Referral Name (optional)</label>
+      <input type="text">
+
+      <label class="consent-label">
+        <input type="checkbox" required>
+        <span>I agree to allow Idzmir Kids Hub to use my information for service communication.</span>
+      </label>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="form-navigation">
+      <button id="btnBack" style="border-color:#004aad;border-radius:15px;padding:5px 8px;">Back to Department</button>
+      <button type="submit" class="ca01-btn">Submit</button>
+    </div>
+
+  </form>
+
+</div>
+
+<script>
+document.getElementById('btnBack').addEventListener('click', () => {
+  window.location.href = '../../Department/department.html';
+});
+</script>
+
+</body>
+</html>
